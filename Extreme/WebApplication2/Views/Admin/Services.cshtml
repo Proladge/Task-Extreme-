@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebApplication2.Models.Service>
+@{
+    ViewBag.Title = "Адмін панель: керування Послугами";
+}
+
+<h2>Адмін панель: керування Послугами</h2>
+
+<p>
+    @Html.ActionLink("Створити нову послугу", "Create")
+</p>
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shortDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeLimit)
+        </th>
+        <th>
+        
+            @Html.DisplayNameFor(model=> model.ImageData)
+        
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shortDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeLimit)
+            </td>
+            <td>
+                <img   class="img-thumbnail" width="250" height ="250" src="@Url.Action("GetImage", "Admin", new { Id = item.Id })">
+            </td>
+            <td>
+                @Html.ActionLink("Редагувати", "Edit", new { id = item.Id}) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+

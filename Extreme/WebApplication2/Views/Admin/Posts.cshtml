@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WebApplication2.Models.Post>
+@{
+    ViewBag.Title = "Адмін панель: керування Блогом";
+}
+
+<h2>Адмін панель: керування Блогом</h2>
+
+<p>
+    @Html.ActionLink("Створити Пост", "CreatePost")
+</p>
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tags)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+
+            @Html.DisplayNameFor(model => model.ImageData)
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+            <img class="img-thumbnail"   width ="250" height="250" src="@Url.Action("GetImageForPost", "Admin", new { Id = item.Id})">
+            </td>
+            <td>
+                @Html.ActionLink("Редагувати", "EditPost", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "DeletePost", new { id = item.Id })
+            </td>
+        </tr>
+
+    }
+
+</table>
+

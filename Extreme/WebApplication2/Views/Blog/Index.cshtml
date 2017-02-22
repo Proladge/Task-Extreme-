@@ -1,0 +1,55 @@
+﻿@Model IEnumerable<WebApliacation2.Models.Post>
+
+@{
+    ViewBag.Title = "Blog";
+}
+
+
+<h2>Blog</h2>
+
+    <div class="container-fluid">
+        <div class="row content">
+    
+            <div class="col-sm-9">
+                <h4><small>RECENT POSTS</small></h4>
+                <hr>
+                @foreach (var post in Model)
+                {
+                <h2>@post.Title</h2>
+                <h5><span class="glyphicon glyphicon-time"></span> Post by @post.IdAuthor, @post.Date   </h5>
+                
+ 
+        String[] tags = post.Tags.Split(',');
+     <h5>
+
+         @foreach (String tag in tags)
+         {
+
+         <span class="label label-info">
+             @tag
+         </span>
+         }
+     </h5>
+     <img class="img-responsive" src="@Url.Action("GetImageForPost", "Blog", new { Id = post.Id})">
+
+            <br>
+            <p>@post.Text</p>
+            <br><br>
+
+            }
+
+            <h4>Leave a Comment:</h4>
+            <form role="form">
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+            <br><br>
+
+          
+
+          
+</div>
+        </div>
+    </div>
