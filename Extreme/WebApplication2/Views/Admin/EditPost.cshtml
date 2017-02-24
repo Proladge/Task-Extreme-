@@ -2,10 +2,12 @@
 @{
     ViewBag.Title = "Редагування Постів";
 }
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <div class="panel">
     <div class="panel-heading">
-        <h2>Адмін панель :  Послуги :Блог : Редагування статті @Model.Title</h2>
+        <h2>Адмін панель : Блог : Редагування статті @Model.Title</h2>
     </div>
     @using (Html.BeginForm("EditPost", "Admin",
                         FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -17,7 +19,7 @@
                 switch (property.PropertyName)
                 {
                     case "Id":
-                    case "AuthorId":
+                    case "IdAuthor":
                     case "ImageData":
                     case "ImageMimeType":
                         // Ничего не делать
@@ -32,11 +34,11 @@
                             }
                             else if (property.PropertyName == "Date")
                             {
-                                <input class="form-control" type="datetime-local" class="input-group" name="@property.PropertyName" value="@Model.Date">
-                            }
+                                @Html.TextBox(property.PropertyName, null, new { @class="form-control", type="datetime"});
+                               }
                             else
                             {
-                                @Html.TextBox(property.PropertyName, null,
+                                @Html.TextBox(property.PropertyName, property.Model,
                                     new { @class = "form-control" })
                             }
                             @Html.ValidationMessage(property.PropertyName)
@@ -44,19 +46,9 @@
                         break;
                 }
             }
-            <div class="form-group">
-                <div style="position:relative;">
-                    <label>Картинка</label>
-                    <a class='btn' href='javascript:;'>
-                        Выберите файл...
-                        <input type="file" name="Image" size="40"
-                               style="position:absolute;z-index:2;top:0;
-                                left:0;filter: alpha(opacity=0); opacity:0;
-                                background-color:transparent;color:transparent;"
-                               onchange='$("#upload-file-info").html($(this).val());'>
-                    </a>
-                    <span class='label label-info' id="upload-file-info"></span>
-                </div>
+            <div id="PostImage" class="form-group">
+               
+               <a id="EditImage" class="btn btn-default">Змінити зображення цього поста</a>
                 @if (Model.ImageData == null)
                 {
                     <div class="form-control-static">Нет картинки</div>
@@ -70,7 +62,7 @@
             </div>
         </div>
             <div class="panel-footer panel-info">
-                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <input id="SaveBtn"type="submit" value="Сохранить" class="btn btn-primary" />
                 @Html.ActionLink("Отменить изменения и вернуться к списку", "Posts", null, new
            {
                @class = "btn btn-default"
@@ -78,7 +70,29 @@
             </div>
     }
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        alert('Hello');
+        $('#EditImage').click(function () {
+            alert("hello");
 
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EditImage", "Admin")',
+                success: function (data) {
+                    alert("Ajax done");
+                    alert(data);
+                    $('#PostImage').append(data);
+                    $('#EditImage').hide();
+                },
+                failure: function (errMsg) {
+                    alert("Error " + errMsg);                }
+            });
+
+            alrrt("End");
+        });
+           });
+</script>
 
 
 

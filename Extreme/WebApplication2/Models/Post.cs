@@ -15,7 +15,7 @@ namespace WebApplication2.Models
         [HiddenInput(DisplayValue = false)]
         public int IdAuthor { get; set; }
 
-        [Display(Name = "Назва")]
+        [Display(Name = "Заголовок")]
         public String Title { get; set; }
 
         [DataType(DataType.MultilineText)]

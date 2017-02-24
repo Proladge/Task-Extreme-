@@ -63,8 +63,11 @@ namespace WebApplication2.Controllers
                         dbEntry.TimeLimit = service.TimeLimit;
                         dbEntry.shortDescription = service.shortDescription;
                         dbEntry.description = service.description;
-                        dbEntry.ImageData = service.ImageData;
-                        dbEntry.ImageMimeType = service.ImageMimeType;
+                        if (image != null)
+                        {
+                            dbEntry.ImageData = service.ImageData;
+                            dbEntry.ImageMimeType = service.ImageMimeType;
+                        }
                     }
                 }
                     db.SaveChanges();
@@ -141,8 +144,11 @@ namespace WebApplication2.Controllers
                         dbEntry.Text = post.Text;
                         dbEntry.Tags = post.Tags;
                         dbEntry.Date = post.Date;
-                        dbEntry.ImageMimeType = post.ImageMimeType;
-                        dbEntry.ImageData = post.ImageData;
+                        if (image != null)
+                        {
+                            dbEntry.ImageMimeType = post.ImageMimeType;
+                            dbEntry.ImageData = post.ImageData;
+                        }
                     }
                 }
                 db.SaveChanges();
@@ -208,15 +214,24 @@ namespace WebApplication2.Controllers
         {
             Post post = db.Posts
                 .FirstOrDefault(g => g.Id == Id);
-
-            if (post.ImageData != null && post.ImageMimeType != null)
+            if (post != null)
             {
-                return File(post.ImageData, post.ImageMimeType);
+                if (post.ImageData != null && post.ImageMimeType != null)
+                {
+                    return File(post.ImageData, post.ImageMimeType);
+                }
+                return null;
             }
             else
             {
                 return null;
             }
+        }
+
+        
+        public PartialViewResult EditImage() {
+
+            return PartialView();
         }
 
     }
